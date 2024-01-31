@@ -1,0 +1,9 @@
+.cats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+  grid-gap: 3rem;
+  grid-gap: 48px;
+  margin-top: 52px;
+  margin-bottom: 48px;
+  list-style: none;
+}

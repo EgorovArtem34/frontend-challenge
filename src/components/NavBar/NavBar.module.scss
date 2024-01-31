@@ -1,0 +1,18 @@
+.links {
+  display: flex;
+  margin-left: 62px;
+  list-style: none;
+}
+
+.headerLink {
+  width: 120px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--White-High-Emphasis, #fff);
+
+  &.active {
+    background: var(--Primary-600, #1e88e5);
+  }
+}

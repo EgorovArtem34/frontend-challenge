@@ -1,9 +1,20 @@
-// export interface Cat {
+interface IBreed {
+  id: string;
+  name: string;
+  temperament: string;
+  origin: string;
+  description: string;
+}
 
-// }
+export interface ICat {
+  id: string;
+  url: string;
+  breeds: IBreed[];
+  isFavorite?: boolean;
+}
 
 export interface CatsState {
-  cats: unknown[];
+  cats: ICat[];
   favoriteIdsCats: number[];
   errors: {
     fetchCatsErr: null | string;
@@ -13,9 +24,11 @@ export interface CatsState {
     isFetchCatsLoading: boolean;
     isFetchMoreCatsLoading: boolean;
   };
-  pageData: {
+  params: {
     page: number;
     limit: number;
+    size: string;
+    mime_types: string;
   };
 }
 

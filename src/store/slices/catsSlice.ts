@@ -1,12 +1,22 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CatsState, IError } from "../types";
-import axios, { AxiosError } from "axios";
+import { CatsState, ICat, IError } from "../types";
+import { AxiosError } from "axios";
 import { fetchCats } from "@/api/catApi";
 import { RootState } from "..";
 
-export const fetchCatsAction = createAsyncThunk("cats/fetchCats", async () => {
+export const fetchCatsAction = createAsyncThunk<
+  ICat[],
+  void,
+  { state: RootState }
+>("cats/fetchCats", async (_, { getState }) => {
   try {
-    const cats = await fetchCats();
+    const { limit, page, size, mime_types } = getState().catsSlice.params;
+    const cats = await fetchCats({
+      limit,
+      page,
+      size,
+      mime_types,
+    });
     console.log(cats);
     return cats;
   } catch (err) {
@@ -31,9 +41,11 @@ const initialState: CatsState = {
     isFetchCatsLoading: false,
     isFetchMoreCatsLoading: false,
   },
-  pageData: {
+  params: {
     page: 1,
-    limit: 12,
+    limit: 15,
+    size: "med",
+    mime_types: "jpg",
   },
 };
 
@@ -53,9 +65,12 @@ const catsSlice = createSlice({
       })
       .addCase(
         fetchCatsAction.fulfilled,
-        (state, { payload }: PayloadAction<unknown>) => {
-          const { cats } = payload;
-          state.cats = cats;
+        (state, { payload }: PayloadAction<ICat[]>) => {
+          const currentCats = payload.map((cat) => ({
+            ...cat,
+            isFavorite: false,
+          }));
+          state.cats = currentCats;
           state.errors.fetchCatsErr = null;
           state.isLoadings.isFetchCatsLoading = false;
         }
