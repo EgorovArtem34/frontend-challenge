@@ -1,6 +1,7 @@
 import { AppLink } from "@/ui/AppLink/AppLink";
 import styles from "./NavBar.module.scss";
 import { useLocation } from "react-router-dom";
+import { classNames } from "@/utils/classNames";
 
 export const NavBar = () => {
   const location = useLocation();
@@ -11,9 +12,9 @@ export const NavBar = () => {
       <li>
         <AppLink
           to="/"
-          className={`${styles.headerLink} ${
-            pathname === "/" ? styles.active : ""
-          }`}
+          className={classNames(styles.headerLink, {
+            [styles.active]: pathname === "/",
+          })}
         >
           Все котики
         </AppLink>
@@ -21,9 +22,10 @@ export const NavBar = () => {
       <li>
         <AppLink
           to="/favorites"
-          className={`${styles.headerLink} ${
-            pathname === "/favorites" ? styles.active : ""
-          }`}
+          className={classNames(styles.headerLink, {
+            [styles.active]: pathname === "/favorites",
+            [styles.large]: true,
+          })}
         >
           Любимые котики
         </AppLink>
