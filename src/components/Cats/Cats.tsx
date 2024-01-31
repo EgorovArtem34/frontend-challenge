@@ -5,7 +5,6 @@ import { fetchCatsAction, fetchMoreCats } from "@/store/slices/catsSlice";
 import { CatItem } from "./CatItem/CatItem";
 import { Loader } from "@/ui/Loader/Loader";
 import { getFavoritesLocalStorage } from "@/utils/catsHelpers";
-import { InfiniteScroll } from "../InfiniteScroll/InfiniteScroll";
 import { Button } from "@/ui/Button/Button";
 
 interface CatsProps {
@@ -42,7 +41,7 @@ export const Cats: React.FC<CatsProps> = ({ isShowFavoriteCats = false }) => {
       !fetchCatsErr &&
       !fetchMoreCatsErr &&
       currentCats.length === 0 ? (
-        <p className="info">No cats found</p>
+        <p className="info">Кошки куда-то убежали</p>
       ) : (
         <ul className={styles.cats}>
           {currentCats.map((cat) => (
