@@ -13,10 +13,20 @@
   margin: 0 auto;
 }
 
-.center {
+.info {
+  margin: 52px 10px;
   text-align: center;
 }
 
 .container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
   padding: 0 62px;
+}
+
+@media screen and (max-width: 730px) {
+  .container {
+    padding: 32px;
+  }
 }

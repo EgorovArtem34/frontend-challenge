@@ -13,9 +13,14 @@ export interface ICat {
   isFavorite?: boolean;
 }
 
+export interface IFavoriteParams {
+  id?: string;
+  url?: string;
+  isFavorite?: boolean;
+}
+
 export interface CatsState {
   cats: ICat[];
-  favoriteIdsCats: number[];
   errors: {
     fetchCatsErr: null | string;
     fetchMoreCatsErr: null | string;

@@ -1,11 +1,18 @@
 import { useEffect } from "react";
 import styles from "./Cats.module.scss";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { fetchCatsAction } from "@/store/slices/catsSlice";
+import { fetchCatsAction, fetchMoreCats } from "@/store/slices/catsSlice";
 import { CatItem } from "./CatItem/CatItem";
 import { Loader } from "@/ui/Loader/Loader";
+import { getFavoritesLocalStorage } from "@/utils/catsHelpers";
+import { InfiniteScroll } from "../InfiniteScroll/InfiniteScroll";
+import { Button } from "@/ui/Button/Button";
 
-export const Cats = () => {
+interface CatsProps {
+  isShowFavoriteCats?: boolean;
+}
+
+export const Cats: React.FC<CatsProps> = ({ isShowFavoriteCats = false }) => {
   const dispatch = useAppDispatch();
   const {
     cats,
@@ -13,6 +20,7 @@ export const Cats = () => {
     errors: { fetchCatsErr, fetchMoreCatsErr },
   } = useAppSelector((state) => state.catsSlice);
   const isLoading = isFetchCatsLoading || isFetchMoreCatsLoading;
+  const currentCats = isShowFavoriteCats ? getFavoritesLocalStorage() : cats;
 
   useEffect(() => {
     if (cats?.length === 0) {
@@ -20,18 +28,39 @@ export const Cats = () => {
     }
   }, [cats, dispatch]);
 
+  const handleMoreCats = () => {
+    dispatch(fetchMoreCats());
+  };
+
   return (
     <div className="container">
-      {isLoading && <Loader />}
-      {fetchCatsErr && <p className="center">Error: {fetchCatsErr}</p>}
-      {!isLoading && !fetchCatsErr && !fetchMoreCatsErr && cats.length === 0 ? (
-        <p className="center">No cats found</p>
+      {isFetchCatsLoading && !isShowFavoriteCats && <Loader />}
+      {fetchCatsErr && !isShowFavoriteCats && (
+        <p className="info">Error: {fetchCatsErr}</p>
+      )}
+      {!isLoading &&
+      !fetchCatsErr &&
+      !fetchMoreCatsErr &&
+      currentCats.length === 0 ? (
+        <p className="info">No cats found</p>
       ) : (
         <ul className={styles.cats}>
-          {cats.map((cat) => (
+          {currentCats.map((cat) => (
             <CatItem key={cat.id} cat={cat} />
           ))}
         </ul>
+      )}
+      {isFetchMoreCatsLoading && (
+        <p className={styles.moreFetchInfo}>... загружаем еще котиков ...</p>
+      )}
+      {!isShowFavoriteCats && (
+        <Button
+          variant="fetchMore"
+          onClick={handleMoreCats}
+          disabled={isLoading}
+        >
+          Позвать котиков
+        </Button>
       )}
     </div>
   );

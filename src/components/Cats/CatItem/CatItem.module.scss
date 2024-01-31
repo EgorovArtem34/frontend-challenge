@@ -2,7 +2,7 @@
   display: flex;
   width: 225px;
   height: 225px;
-  margin: 0 auto;
+
   position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
@@ -10,7 +10,7 @@
     transform: scale(1.137777777777778);
     box-shadow: 0 9px 9px rgba(0, 0, 0, 0.18), 0 6px 2.5px rgba(0, 0, 0, 0.24);
 
-    & > .favoriteSvg {
+    & > .favoriteBtn {
       display: block;
     }
   }
@@ -22,10 +22,31 @@
   background: url(<path-to-image>), lightgray 50% / cover no-repeat;
 }
 
-.favoriteSvg {
+.hidden {
   display: none;
+}
+
+.favoriteBtn {
   position: absolute;
   right: 15px;
   bottom: 19px;
-  cursor: pointer;
+  display: none;
+
+  &:hover {
+    > * > * {
+      .favoriteSvgPath {
+        display: none;
+      }
+      .favoriteSvgPathFilled {
+        display: inline;
+      }
+    }
+  }
+  &:active {
+    > * > * {
+      .favoriteSvgPathFilled {
+        fill: #ff3a00;
+      }
+    }
+  }
 }

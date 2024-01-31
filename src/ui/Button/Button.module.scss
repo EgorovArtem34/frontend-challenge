@@ -1,0 +1,30 @@
+.button {
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.clear {
+  border: none;
+  background: none;
+  outline: none;
+}
+
+.fetchMore {
+  width: 250px;
+  padding: 10px;
+  border: 1px solid darkblue;
+  border-radius: 12px;
+  margin: 0 auto 30px;
+  transition: background 0.3s ease color 0.3s ease;
+
+  &:hover {
+    background: rgb(226, 224, 224);
+  }
+  &:active {
+    color: darkblue;
+  }
+}
