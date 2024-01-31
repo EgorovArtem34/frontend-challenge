@@ -16,3 +16,9 @@
     background: var(--Primary-600, #1e88e5);
   }
 }
+
+@media screen and (max-width: 730px) {
+  .links {
+    margin-left: 32px;
+  }
+}

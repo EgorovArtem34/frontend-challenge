@@ -1,9 +1,22 @@
 .cats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+  grid-template-columns: repeat(5, minmax(225px, 1fr));
   grid-gap: 3rem;
-  grid-gap: 48px;
   margin-top: 52px;
   margin-bottom: 48px;
   list-style: none;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 1439px) {
+  .cats {
+    grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .cats {
+    grid-gap: 1.8rem;
+  }
 }
