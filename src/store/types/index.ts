@@ -13,4 +13,12 @@ export interface CatsState {
     isFetchCatsLoading: boolean;
     isFetchMoreCatsLoading: boolean;
   };
+  pageData: {
+    page: number;
+    limit: number;
+  };
+}
+
+export interface IError {
+  message: string | string[];
 }

@@ -1,7 +1,19 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CatsState } from "../types";
+import { CatsState, IError } from "../types";
+import axios, { AxiosError } from "axios";
+import { fetchCats } from "@/api/catApi";
+import { RootState } from "..";
 
-export const fetchCats = createAsyncThunk("cats/fetchCats", async () => {});
+export const fetchCatsAction = createAsyncThunk("cats/fetchCats", async () => {
+  try {
+    const cats = await fetchCats();
+    console.log(cats);
+    return cats;
+  } catch (err) {
+    const error = err as AxiosError<IError>;
+    throw error.message;
+  }
+});
 
 export const fetchMoreCats = createAsyncThunk(
   "cats/fetchMoreCats",
@@ -19,27 +31,31 @@ const initialState: CatsState = {
     isFetchCatsLoading: false,
     isFetchMoreCatsLoading: false,
   },
+  pageData: {
+    page: 1,
+    limit: 12,
+  },
 };
 
-const usersSlice = createSlice({
-  name: "users",
+const catsSlice = createSlice({
+  name: "cats",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchCats.pending, (state) => {
+      .addCase(fetchCatsAction.pending, (state) => {
         state.errors.fetchCatsErr = null;
         state.isLoadings.isFetchCatsLoading = true;
       })
-      .addCase(fetchCats.rejected, (state, action) => {
+      .addCase(fetchCatsAction.rejected, (state, action) => {
         state.errors.fetchCatsErr = action.payload as string;
         state.isLoadings.isFetchCatsLoading = false;
       })
       .addCase(
-        fetchCats.fulfilled,
+        fetchCatsAction.fulfilled,
         (state, { payload }: PayloadAction<unknown>) => {
-          // const { users } = payload;
-          // state.cats = users;
+          const { cats } = payload;
+          state.cats = cats;
           state.errors.fetchCatsErr = null;
           state.isLoadings.isFetchCatsLoading = false;
         }
@@ -47,5 +63,5 @@ const usersSlice = createSlice({
   },
 });
 
-// export const {} = usersSlice.actions;
-export default usersSlice.reducer;
+// export const {} = catsSlice.actions;
+export default catsSlice.reducer;
