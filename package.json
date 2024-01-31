@@ -1,6 +1,7 @@
 {
   "name": "frontend-challenge",
   "private": true,
+  "homepage": "http://egorovartem34.github.io/frontend-challenge",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
